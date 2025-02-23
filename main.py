@@ -202,7 +202,7 @@ async def chatbot(request: ChatbotRequest):
         #Query LLM
         response = query_engine.query(message)
         response_text = str(response) # Extract text from the LlamaIndex response object
-
+        print('response_text', response_text)
         # Store conversation in MongoDB
         conversation_collection.insert_one({
             "chat_id": chat_id,
@@ -215,7 +215,9 @@ async def chatbot(request: ChatbotRequest):
         #metrics = evaluate_chatbot_response(message, response_text) if RAGAAI_API_KEY else None
         metrics = None #Disabling raga AI
 
-        return ChatbotResponse(response=response_text, chat_id=chat_id, metrics=metrics)
+        return ChatbotResponse(response=response_text, chat_id=chat_id, 
+                            #    metrics=metrics
+                               )
 
     except Exception as e:
         logging.error(f"Chatbot error: {e}")
