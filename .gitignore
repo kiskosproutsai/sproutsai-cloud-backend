@@ -1,5 +1,8 @@
 data/
 cloud-backend/
+cloud2/
+cloud3/
+cloud4/
 .env*
 
 # Byte-compiled / optimized / DLL files
@@ -173,3 +176,4 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+

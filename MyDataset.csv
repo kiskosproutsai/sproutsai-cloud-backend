@@ -1,0 +1,4 @@
+Query,response,Context,expectedResponse
+"What is the capital of France?", "The capital of France is Paris.", "Geography", "The capital of France is Paris."
+"How many continents are there?", "There are seven continents.", "Geography", "There are seven continents."
+"What is the boiling point of water?", "The boiling point of water is 100°C at sea level.", "Science", "The boiling point of water is 100°C at sea level."
