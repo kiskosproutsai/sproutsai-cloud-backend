@@ -14,22 +14,30 @@ print('catalyst', catalyst)
 from ragaai_catalyst import Dataset
 import pandas as pd
 
-df = pd.read_csv('chat-dataset.csv')
+# df = pd.read_csv('chat-dataset.csv')
+df = pd.read_csv('MyDataset.csv')
 # print(df)
-temp_dict = {}
+temp_dict = {}  
 for col in df.columns:
     temp_dict[col] = col
 
+schema_mapping2={
+    'Query': 'prompt',
+    'response': 'response',
+    'Context': 'context',
+    'expectedResponse': 'expected_response',
+}
+
 # Initialize Dataset management for a specific project
-dataset_manager = Dataset(project_name="Test-RAG-App-1")
+dataset_manager = Dataset(project_name="TestProject003")
 print('dataset_manager', dataset_manager)
 
-# # Create a dataset from CSV
-# dataset_manager.create_from_csv(
-#     csv_path='chat-dataset.csv',
-#     dataset_name='chat-dataset',
-#     schema_mapping=temp_dict
-# )
+# Create a dataset from CSV
+dataset_manager.create_from_csv(
+    csv_path='MyDataset.csv',
+    dataset_name='mydataset002',
+    schema_mapping=schema_mapping2
+)
 
 # # List existing datasets
 # datasets = dataset_manager.list_datasets()

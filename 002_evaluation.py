@@ -25,11 +25,18 @@ print('metrics_list', metrics_list)
 
 # Add metrics to the experiment
 
-schema_mapping={
+schema_mapping1={
+    'Query': 'prompt',
+    'Context': 'context',
+    'expectedResponse': 'expected_response',
+    'response':'text'
+}
+
+schema_mapping2={
     'Query': 'prompt',
     'response': 'response',
     'Context': 'context',
-    'expectedResponse': 'expected_response'
+    'expectedResponse': 'expected_response',
 }
 
 
@@ -37,7 +44,8 @@ schema_mapping={
 # Add single metric
 evaluation.add_metrics(
     metrics=[
-      {"name": "Faithfulness19", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"gte": 0.232323}}, "column_name": "Faithfulness19", "schema_mapping": schema_mapping},
+      {"name": "PII", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"gte": 0.232323}}, "column_name": "PII001", "schema_mapping": schema_mapping1},
+      {"name": "Ragas/Factual Correctness", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"gte": 0.232323}}, "column_name": "FactCheck001", "schema_mapping": schema_mapping2},
     
     ]
 )
