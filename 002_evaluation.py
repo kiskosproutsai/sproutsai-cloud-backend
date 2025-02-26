@@ -16,7 +16,7 @@ from ragaai_catalyst import Evaluation
 # Create an experiment
 evaluation = Evaluation(
     project_name="TestProject003",
-    dataset_name="mydataset",
+    dataset_name="mydataset002",
 )
 
 # Get list of available metrics
@@ -26,7 +26,7 @@ print('metrics_list', metrics_list)
 # Add metrics to the experiment
 
 schema_mapping1={
-    'Query': 'prompt',
+    'Query': 'prompt',  
     'Context': 'context',
     'expectedResponse': 'expected_response',
     'response':'text'
@@ -39,29 +39,36 @@ schema_mapping2={
     'expectedResponse': 'expected_response',
 }
 
+schema_mapping3={
+    'Query': 'prompt',
+    'response': 'response',
+    'expectedResponse': 'context',
+}
+
 
 # THIS ADDS A JOB
 # Add single metric
 evaluation.add_metrics(
     metrics=[
-      {"name": "PII", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"gte": 0.232323}}, "column_name": "PII001", "schema_mapping": schema_mapping1},
-      {"name": "Ragas/Factual Correctness", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"gte": 0.232323}}, "column_name": "FactCheck001", "schema_mapping": schema_mapping2},
+    #   {"name": "PII", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"gte": 0.232323}}, "column_name": "PII001", "schema_mapping": schema_mapping1},
+    #   {"name": "Ragas/Factual Correctness", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"gte": 0.232323}}, "column_name": "FactCheck001", "schema_mapping": schema_mapping2},
+      {"name": "Hallucination", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"gte": 0.232323}}, "column_name": "FactCheck002", "schema_mapping": schema_mapping3},
     
     ]
 )
 # RESULT: Metric Evaluation Job scheduled successfully?
 
-# ## THIS ADDS A JOB
-# # Add multiple metrics
-# evaluation.add_metrics(
-#     metrics=[
-#         {"name": "Faithfulness", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"gte": 0.323}}, "column_name": "Faithfulness_gte1", "schema_mapping": schema_mapping},
-#         {"name": "Hallucination", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"lte": 0.323}}, "column_name": "Hallucination_lte1", "schema_mapping": schema_mapping},
-#         {"name": "Hallucination", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"eq": 0.323}}, "column_name": "Hallucination_eq1", "schema_mapping": schema_mapping},
-#     ]
-# )
-# ##Metric Evaluation Job scheduled successfully
-# ##Job in progress. Please wait while the job completes.
+# # ## THIS ADDS A JOB
+# # # Add multiple metrics
+# # evaluation.add_metrics(
+# #     metrics=[
+# #         {"name": "Faithfulness", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"gte": 0.323}}, "column_name": "Faithfulness_gte1", "schema_mapping": schema_mapping},
+# #         {"name": "Hallucination", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"lte": 0.323}}, "column_name": "Hallucination_lte1", "schema_mapping": schema_mapping},
+# #         {"name": "Hallucination", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"eq": 0.323}}, "column_name": "Hallucination_eq1", "schema_mapping": schema_mapping},
+# #     ]
+# # )
+# # ##Metric Evaluation Job scheduled successfully
+# # ##Job in progress. Please wait while the job completes.
 
 # Get the status of the experiment
 status = evaluation.get_status()
@@ -72,6 +79,6 @@ results = evaluation.get_results()
 print("Experiment Results:", results)
 print('results.columns', results.columns)
 
-# # Appending Metrics for New Data
-# # If you've added new rows to your dataset, you can calculate metrics just for the new data:
-# evaluation.append_metrics(display_name="Faithfulness_v1")
+# # # Appending Metrics for New Data
+# # # If you've added new rows to your dataset, you can calculate metrics just for the new data:
+# # evaluation.append_metrics(display_name="Faithfulness_v1")
