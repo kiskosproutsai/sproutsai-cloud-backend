@@ -52,7 +52,7 @@ evaluation.add_metrics(
     metrics=[
     #   {"name": "PII", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"gte": 0.232323}}, "column_name": "PII001", "schema_mapping": schema_mapping1},
     #   {"name": "Ragas/Factual Correctness", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"gte": 0.232323}}, "column_name": "FactCheck001", "schema_mapping": schema_mapping2},
-      {"name": "Hallucination", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"gte": 0.232323}}, "column_name": "FactCheck002", "schema_mapping": schema_mapping3},
+      {"name": "Hallucination", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"gte": 0.232323}}, "column_name": "FactCheck003", "schema_mapping": schema_mapping3},
     
     ]
 )

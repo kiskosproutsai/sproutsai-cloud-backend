@@ -1,5 +1,8 @@
+import asyncio
+from fastapi import HTTPException
 import os
 from ragaai_catalyst import RagaAICatalyst, Experiment, Tracer, Dataset
+from ragaai_catalyst import Evaluation
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request
 import pandas as pd
@@ -66,7 +69,7 @@ async def evaluate(request: Request):
         df = pd.DataFrame(data)
 
         temp_dataset_name = 'data_for_eval_' + time.ctime()
-        temp_dataset_name = temp_dataset_name.replace(' ', '_').replace(':', '_')
+        temp_dataset_name = temp_dataset_name.replace(' ', '_').replace(':', '_').lower()
 
         # # Create a dataset from dataframe
         # dataset_manager.create_from_df(
@@ -79,34 +82,43 @@ async def evaluate(request: Request):
 
         print('df\n\n', df)
 
-        dataset_manager.create_from_csv(
+        print('START Creating dataset from csv')
+        temp_response = dataset_manager.create_from_csv(
             csv_path=temp_dataset_name+'.csv',
             dataset_name=temp_dataset_name,
             schema_mapping=schema_mapping
         )
+        print('temp_response', temp_response)
+        print('END Creating dataset from csv')
+
+        # for i in range(10):
+        #     print('i', i)
+        #     time.sleep(1)
 
         #delete temp_dataset_name+'.csv'
         os.remove(temp_dataset_name+'.csv')
-        from ragaai_catalyst import Evaluation
 
+        print('START Creating evaluation')
         # Create an experiment
         evaluation = Evaluation(
             project_name=project_name,
             dataset_name=temp_dataset_name,
         )
+        print('END Creating evaluation')
 
+        print('START Adding metrics')
         # THIS ADDS A JOB
         # Add single metric
         evaluation.add_metrics(
             metrics=[
             #   {"name": "PII", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"gte": 0.232323}}, "column_name": "PII001", "schema_mapping": schema_mapping1},
             #   {"name": "Ragas/Factual Correctness", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"gte": 0.232323}}, "column_name": "FactCheck001", "schema_mapping": schema_mapping2},
-            {"name": "Hallucination", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"gte": 0.232323}}, "column_name": "FactCheck002", "schema_mapping": schema_mapping},
-            {"name": "Context Relevancy", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"gte": 0.232323}}, "column_name": "FactCheck002", "schema_mapping": schema_mapping},
+            {"name": "Hallucination", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"gte": 0.232323}}, "column_name": "hallucination", "schema_mapping": schema_mapping},
+            {"name": "Context Relevancy", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"gte": 0.232323}}, "column_name": "context_relevancy", "schema_mapping": schema_mapping},
             
             ]
         )
-
+        print('END Adding metrics')
         # Get the status of the experiment
         status = evaluation.get_status()
         print("Experiment Status:", status)
@@ -117,7 +129,7 @@ async def evaluate(request: Request):
         print('results.columns', results.columns)
 
 
-        return {"message": "error done"}
+        return {"message": "evaluation done"}
     except Exception as e:
         return {"message": str(e)}
     
