@@ -57,6 +57,12 @@ async def evaluate(request: Request):
         dataset_manager = Dataset(project_name=project_name)
         print('dataset_manager', dataset_manager)
 
+        # schema_mapping = {
+        #     'Prompt': 'prompt',
+        #     'Response': 'response',
+        #     'Context': 'context'
+        # }
+
         schema_mapping = {
             'prompt': 'prompt',
             'response': 'response',
@@ -68,7 +74,7 @@ async def evaluate(request: Request):
 
         df = pd.DataFrame(data)
 
-        temp_dataset_name = 'data_for_eval_' + time.ctime()
+        temp_dataset_name = 'data_for_eval_' + time.strftime("%Y%m%d_%H%M%S") #+ time.ctime()
         temp_dataset_name = temp_dataset_name.replace(' ', '_').replace(':', '_').lower()
 
         # # Create a dataset from dataframe
@@ -114,7 +120,7 @@ async def evaluate(request: Request):
             #   {"name": "PII", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"gte": 0.232323}}, "column_name": "PII001", "schema_mapping": schema_mapping1},
             #   {"name": "Ragas/Factual Correctness", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"gte": 0.232323}}, "column_name": "FactCheck001", "schema_mapping": schema_mapping2},
             {"name": "Hallucination", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"gte": 0.232323}}, "column_name": "hallucination", "schema_mapping": schema_mapping},
-            {"name": "Context Relevancy", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"gte": 0.232323}}, "column_name": "context_relevancy", "schema_mapping": schema_mapping},
+            # {"name": "Context Relevancy", "config": {"model": "gpt-4o-mini", "provider": "openai", "threshold": {"gte": 0.232323}}, "column_name": "context_relevancy", "schema_mapping": schema_mapping},
             
             ]
         )
